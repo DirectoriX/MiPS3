@@ -31,6 +31,7 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.Modules = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -57,7 +58,7 @@
             // 
             this.Modules.Location = new System.Drawing.Point(144, 12);
             this.Modules.Minimum = new decimal(new int[] {
-            1,
+            2,
             0,
             0,
             0});
@@ -123,6 +124,11 @@
             0,
             0,
             0});
+            this.MaxBroken.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.MaxBroken.Name = "MaxBroken";
             this.MaxBroken.Size = new System.Drawing.Size(48, 20);
             this.MaxBroken.TabIndex = 5;
@@ -179,7 +185,7 @@
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(180, 224);
+            this.textBox1.Size = new System.Drawing.Size(180, 261);
             this.textBox1.TabIndex = 9;
             // 
             // chart1
@@ -193,11 +199,21 @@
             this.chart1.Location = new System.Drawing.Point(201, 64);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Range;
+            series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            series1.IsVisibleInLegend = false;
             series1.Legend = "Legend1";
-            series1.Name = "Коэффициент сохранения эффективности";
+            series1.Name = "Series2";
+            series1.YValuesPerPoint = 2;
+            series2.BorderWidth = 2;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            series2.Legend = "Legend1";
+            series2.Name = "Коэффициент сохранения эффективности";
             this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(649, 224);
+            this.chart1.Series.Add(series2);
+            this.chart1.Size = new System.Drawing.Size(677, 261);
             this.chart1.TabIndex = 10;
             this.chart1.Text = "chart1";
             // 
@@ -242,7 +258,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(862, 300);
+            this.ClientSize = new System.Drawing.Size(890, 337);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.Stud);
             this.Controls.Add(this.ResLabel);

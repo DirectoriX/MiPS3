@@ -14,7 +14,6 @@ namespace MiPS3
     public partial class Form1 : Form
     {
         double[,] arr;
-        List<double> breaktime;
         double[] NA;
         ExponentialDistribution ED;
         int m, n;
@@ -33,9 +32,13 @@ namespace MiPS3
 
         private void button1_Click(object sender, EventArgs e)
         {
+            over = 0;
             m = (int)Modules.Value;
             n = (int)Functions.Value;
             int mods = (int)Models.Value;
+
+            chart1.Series[0].Points.Clear();
+            chart1.Series[1].Points.Clear();
 
             List<double>[] breaktime = new List<double>[mods];
 
@@ -86,11 +89,54 @@ namespace MiPS3
                 sum += Math.Pow((avgbadservice - badservice[i]), 2);
             }
 
+            for (int i = 0; i < mods; i++)
+            {
+                if (over < breaktime[i][m - 1])
+                    over = breaktime[i][m - 1];
+            }
+
             StudentDistribution st = new StudentDistribution(mods - 1);
 
             double pogr = st.InverseLeftProbability(1 - (double)Stud.Value / 200.0) * Math.Sqrt(sum / (mods - 1)) / Math.Sqrt(mods);
 
-            this.Text = avgbadservice.ToString() + "±" + pogr.ToString();
+            ResLabel.Text = "Средняя наработка:\n"+avgbadservice.ToString() + "±" + pogr.ToString();
+
+            double K;
+            double P;
+            double[] pm=new double[mods];
+            double avgpm;
+
+            for (double x = 0; x <= over/3; x += over / 300)
+            {
+                K=0;
+                avgpm=0;
+                for (int i = m-(int)MaxBroken.Value; i <= m; i++)
+                {
+                    P = 0;
+                    for (int k = 0; k < mods; k++)
+                    {
+                        if (breaktime[k][m - i] > x)
+                        {
+                            P += 1.0 / mods;
+                            pm[k] = (breaktime[k][m - i] - x) / (double)MaxBroken.Value;
+                            avgpm += (1.0 * (breaktime[k][m - i] - x) / mods) / (double)MaxBroken.Value;
+                        }
+                    }
+                    K += 1.0 * P * i / m;
+                }
+
+                double abasum = 0;
+
+                for (int i = 0; i < mods; i++)
+                {
+                    abasum += Math.Pow((avgpm - pm[i]), 2);
+                }
+
+                pogr = st.InverseLeftProbability(1 - (double)Stud.Value / 200.0) * Math.Sqrt(abasum / (mods - 1)) / Math.Sqrt(mods);
+
+                chart1.Series[0].Points.AddXY(x, K+pogr, K-pogr);
+                chart1.Series[1].Points.AddXY(x, K);
+            }
         }
     }
 }
