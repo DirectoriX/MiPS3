@@ -14,7 +14,7 @@ namespace MiPS3
     public partial class Form1 : Form
     {
         double[,] arr;
-        double[] breaktime;
+        List<double> breaktime;
         double[] NA;
         ExponentialDistribution ED;
         int m, n;
@@ -28,40 +28,69 @@ namespace MiPS3
 
         private void Modules_ValueChanged(object sender, EventArgs e)
         {
-            MaxBroken.Maximum = Modules.Value;
+            MaxBroken.Maximum = Modules.Value - 1;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             m = (int)Modules.Value;
             n = (int)Functions.Value;
+            int mods = (int)Models.Value;
 
-            arr = new double[m, n];
-            breaktime = new double[m];
-            NA = new double[n];
+            List<double>[] breaktime = new List<double>[mods];
 
-            for (int i = 0; i < n; i++)
+            double[] badservice = new double[mods];
+            double avgbadservice = 0;
+
+            for (int z = 0; z < mods; z++)
             {
-                try
+
+                arr = new double[m, n];
+                breaktime[z] = new List<double>();
+                NA = new double[n];
+
+                for (int i = 0; i < m; i++)
+                    breaktime[z].Add(0);
+
+                for (int i = 0; i < n; i++) // Filling
                 {
-                    ED = new ExponentialDistribution(Convert.ToDouble(textBox1.Lines[i]));
-                }
-                catch (Exception ex)
-                {
-                    ED = new ExponentialDistribution();
+                    try
+                    {
+                        ED = new ExponentialDistribution(Convert.ToDouble(textBox1.Lines[i]));
+                    }
+                    catch (Exception ex)
+                    {
+                        ED = new ExponentialDistribution();
+                    }
+
+                    for (int j = 0; j < m; j++)
+                    {
+                        arr[j, i] = ED.GetRandomValue(RNG);
+                        if (NA[i] < arr[j, i])
+                            NA[i] = arr[j, i];
+                        if (breaktime[z][j] < arr[j, i])
+                            breaktime[z][j] = arr[j, i];
+                    }
                 }
 
-                for (int j = 0; j < m; j++)
-                {
-                    arr[j, i] = ED.GetRandomValue(RNG);
-                    if (NA[i] < arr[j, i])
-                        NA[i] = arr[j, i];
-                    if (breaktime[j] < arr[j, i])
-                        breaktime[j] = arr[j, i];
-                }
+                for (int i = 0; i < m; i++)
+                    breaktime[z].Sort();
+
+                avgbadservice += (badservice[z] = breaktime[z][(int)MaxBroken.Value]) / mods;
+
             }
 
-            over = NA.Min();
+            double sum = 0;
+            for (int i = 0; i < mods; i++)
+            {
+                sum += Math.Pow((avgbadservice - badservice[i]), 2);
+            }
+
+            StudentDistribution st = new StudentDistribution(mods - 1);
+
+            double pogr = st.InverseLeftProbability(1 - (double)Stud.Value / 200.0) * Math.Sqrt(sum / (mods - 1)) / Math.Sqrt(mods);
+
+            this.Text = avgbadservice.ToString() + "±" + pogr.ToString();
         }
     }
 }
