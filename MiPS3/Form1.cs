@@ -14,7 +14,7 @@ namespace MiPS3
     public partial class Form1 : Form
     {
         double[,] arr;
-        double[] NA;
+        // List<double>[] NA;
         ExponentialDistribution ED;
         int m, n;
         Random RNG = new Random();
@@ -39,8 +39,12 @@ namespace MiPS3
 
             chart1.Series[0].Points.Clear();
             chart1.Series[1].Points.Clear();
+            chart1.Series[2].Points.Clear();
 
             List<double>[] breaktime = new List<double>[mods];
+            List<double> NA = new List<double>();
+
+            List<double> NAlocal = new List<double>();
 
             double[] badservice = new double[mods];
             double avgbadservice = 0;
@@ -50,10 +54,13 @@ namespace MiPS3
 
                 arr = new double[m, n];
                 breaktime[z] = new List<double>();
-                NA = new double[n];
+                NAlocal = new List<double>();
 
                 for (int i = 0; i < m; i++)
                     breaktime[z].Add(0);
+
+                for (int i = 0; i < n; i++)
+                    NAlocal.Add(0);
 
                 for (int i = 0; i < n; i++) // Filling
                 {
@@ -65,19 +72,19 @@ namespace MiPS3
                     {
                         ED = new ExponentialDistribution();
                     }
-
                     for (int j = 0; j < m; j++)
                     {
                         arr[j, i] = ED.GetRandomValue(RNG);
-                        if (NA[i] < arr[j, i])
-                            NA[i] = arr[j, i];
+                        if (NAlocal[i] < arr[j, i])
+                            NAlocal[i] = arr[j, i];
                         if (breaktime[z][j] < arr[j, i])
                             breaktime[z][j] = arr[j, i];
                     }
                 }
 
-                for (int i = 0; i < m; i++)
-                    breaktime[z].Sort();
+                NAlocal.Sort();
+                NA.Add(NAlocal.Last());
+                breaktime[z].Sort();
 
                 avgbadservice += (badservice[z] = breaktime[z][(int)MaxBroken.Value]) / mods;
 
@@ -95,22 +102,41 @@ namespace MiPS3
                     over = breaktime[i][m - 1];
             }
 
+            NA.Sort();
+
+            if (over > NA[0])
+                over = NA[0];
+            
             StudentDistribution st = new StudentDistribution(mods - 1);
 
             double pogr = st.InverseLeftProbability(1 - (double)Stud.Value / 200.0) * Math.Sqrt(sum / (mods - 1)) / Math.Sqrt(mods);
 
-            ResLabel.Text = "Средняя наработка:\n"+avgbadservice.ToString() + "±" + pogr.ToString();
+            ResLabel.Text = "Средняя наработка: " + avgbadservice.ToString() + "±" + pogr.ToString();
+
+            double avgover = 0;
+            for (int i = 0; i < mods; i++)
+            {
+                avgover += 1.0 * NA[i] / mods;
+            }
+            sum = 0;
+            for (int i = 0; i < mods; i++)
+            {
+                sum += Math.Pow((avgover - NA[i]), 2);
+            }
+            pogr = st.InverseLeftProbability(1 - (double)Stud.Value / 200.0) * Math.Sqrt(sum / (mods - 1)) / Math.Sqrt(mods);
+
+            OverLabel.Text = "Прекращение работы: " + avgover.ToString() + "±" + pogr.ToString();
 
             double K;
             double P;
-            double[] pm=new double[mods];
+            double[] pm = new double[mods];
             double avgpm;
 
-            for (double x = 0; x <= over/3; x += over / 300)
+            for (double x = 0; x < avgover * 1.01; x += avgover / 100)
             {
-                K=0;
-                avgpm=0;
-                for (int i = m-(int)MaxBroken.Value; i <= m; i++)
+                K = 0;
+                avgpm = 0;
+                for (int i = m - (int)MaxBroken.Value; i <= m; i++)
                 {
                     P = 0;
                     for (int k = 0; k < mods; k++)
@@ -134,9 +160,12 @@ namespace MiPS3
 
                 pogr = st.InverseLeftProbability(1 - (double)Stud.Value / 200.0) * Math.Sqrt(abasum / (mods - 1)) / Math.Sqrt(mods);
 
-                chart1.Series[0].Points.AddXY(x, K+pogr, K-pogr);
+                chart1.Series[0].Points.AddXY(x, K + pogr, K - pogr);
                 chart1.Series[1].Points.AddXY(x, K);
             }
+
+            chart1.Series[2].Points.AddXY(avgover, 0);
+            chart1.Series[2].Points.AddXY(avgover, chart1.Series[1].Points[0].YValues[0]);
         }
     }
 }

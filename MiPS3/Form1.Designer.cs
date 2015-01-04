@@ -32,6 +32,7 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.Modules = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -46,6 +47,7 @@
             this.ResLabel = new System.Windows.Forms.Label();
             this.Stud = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
+            this.OverLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Modules)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Functions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxBroken)).BeginInit();
@@ -211,9 +213,17 @@
             series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             series2.Legend = "Legend1";
             series2.Name = "Коэффициент сохранения эффективности";
+            series3.BorderWidth = 2;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Color = System.Drawing.Color.Red;
+            series3.IsVisibleInLegend = false;
+            series3.Legend = "Legend1";
+            series3.Name = "Series3";
             this.chart1.Series.Add(series1);
             this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(677, 261);
+            this.chart1.Series.Add(series3);
+            this.chart1.Size = new System.Drawing.Size(916, 261);
             this.chart1.TabIndex = 10;
             this.chart1.Text = "chart1";
             // 
@@ -254,11 +264,21 @@
             this.label6.TabIndex = 13;
             this.label6.Text = "%";
             // 
+            // OverLabel
+            // 
+            this.OverLabel.AutoSize = true;
+            this.OverLabel.Location = new System.Drawing.Point(675, 40);
+            this.OverLabel.Name = "OverLabel";
+            this.OverLabel.Size = new System.Drawing.Size(118, 13);
+            this.OverLabel.TabIndex = 14;
+            this.OverLabel.Text = "Прекращение работы";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(890, 337);
+            this.ClientSize = new System.Drawing.Size(1129, 337);
+            this.Controls.Add(this.OverLabel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.Stud);
             this.Controls.Add(this.ResLabel);
@@ -303,6 +323,7 @@
         private System.Windows.Forms.Label ResLabel;
         private System.Windows.Forms.NumericUpDown Stud;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label OverLabel;
     }
 }
 
