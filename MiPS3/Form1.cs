@@ -51,7 +51,7 @@ namespace MiPS3
             double avgbadservice = 0;
 
             double[] Ls = new double[n];
-            for (int i = 0; i < n; i++) 
+            for (int i = 0; i < n; i++)
             {
                 try
                 {
@@ -65,7 +65,6 @@ namespace MiPS3
 
             for (int z = 0; z < mods; z++)// Filling
             {
-
                 arr = new double[m, n];
                 breaktime[z] = new List<double>();
                 NAlocal = new List<double>();
@@ -95,7 +94,6 @@ namespace MiPS3
                 breaktime[z].Sort();
 
                 avgbadservice += (badservice[z] = breaktime[z][(int)MaxBroken.Value]) / mods;
-
             }
 
             double sum = 0;
@@ -179,15 +177,5 @@ namespace MiPS3
             this.Text = (DateTime.Now - dt).TotalSeconds.ToString();
         }
 
-        private void Form1_Shown(object sender, EventArgs e)
-        {
-            Models.Value = 10000;
-            Modules.Value = 100;
-            MaxBroken.Value = 99;
-            Functions.Value = 15;
-            textBox1.Lines=new string[]{"100", "90", "80", "75", "115", "100", "90", "80", "75", "115", "100", "90", "80", "75", "115"};
-            button1_Click(null, null);
-            this.Close();
-        }
     }
 }
