@@ -32,6 +32,7 @@ namespace MiPS3
 
         private void button1_Click(object sender, EventArgs e)
         {
+            DateTime dt = DateTime.Now;
             over = 0;
             m = (int)Modules.Value;
             n = (int)Functions.Value;
@@ -49,7 +50,20 @@ namespace MiPS3
             double[] badservice = new double[mods];
             double avgbadservice = 0;
 
-            for (int z = 0; z < mods; z++)
+            double[] Ls = new double[n];
+            for (int i = 0; i < n; i++) 
+            {
+                try
+                {
+                    Ls[i] = Convert.ToDouble(textBox1.Lines[i]);
+                }
+                catch (Exception ex)
+                {
+                    Ls[i] = 1;
+                }
+            }
+
+            for (int z = 0; z < mods; z++)// Filling
             {
 
                 arr = new double[m, n];
@@ -64,14 +78,8 @@ namespace MiPS3
 
                 for (int i = 0; i < n; i++) // Filling
                 {
-                    try
-                    {
-                        ED = new ExponentialDistribution(Convert.ToDouble(textBox1.Lines[i]));
-                    }
-                    catch (Exception ex)
-                    {
-                        ED = new ExponentialDistribution();
-                    }
+                    ED = new ExponentialDistribution(Ls[i]);
+
                     for (int j = 0; j < m; j++)
                     {
                         arr[j, i] = ED.GetRandomValue(RNG);
@@ -106,7 +114,7 @@ namespace MiPS3
 
             if (over > NA[0])
                 over = NA[0];
-            
+
             StudentDistribution st = new StudentDistribution(mods - 1);
 
             double pogr = st.InverseLeftProbability(1 - (double)Stud.Value / 200.0) * Math.Sqrt(sum / (mods - 1)) / Math.Sqrt(mods);
@@ -123,9 +131,9 @@ namespace MiPS3
             {
                 sum += Math.Pow((avgover - NA[i]), 2);
             }
-            pogr = st.InverseLeftProbability(1 - (double)Stud.Value / 200.0) * Math.Sqrt(sum / (mods - 1)) / Math.Sqrt(mods);
+            double overpogr = st.InverseLeftProbability(1 - (double)Stud.Value / 200.0) * Math.Sqrt(sum / (mods - 1)) / Math.Sqrt(mods);
 
-            OverLabel.Text = "Прекращение работы: " + avgover.ToString() + "±" + pogr.ToString();
+            OverLabel.Text = "Прекращение работы: " + avgover.ToString() + "±" + overpogr.ToString();
 
             double K;
             double P;
@@ -160,12 +168,26 @@ namespace MiPS3
 
                 pogr = st.InverseLeftProbability(1 - (double)Stud.Value / 200.0) * Math.Sqrt(abasum / (mods - 1)) / Math.Sqrt(mods);
 
-                chart1.Series[0].Points.AddXY(x, K + pogr, K - pogr);
-                chart1.Series[1].Points.AddXY(x, K);
+                chart1.Series[1].Points.AddXY(x, K + pogr, K - pogr);
+                chart1.Series[2].Points.AddXY(x, K);
             }
 
-            chart1.Series[2].Points.AddXY(avgover, 0);
-            chart1.Series[2].Points.AddXY(avgover, chart1.Series[1].Points[0].YValues[0]);
+            //chart1.Series[0].Points.AddXY(avgover, 0);
+            chart1.Series[0].Points.AddXY(avgover - overpogr, chart1.Series[1].Points[0].YValues[0]);
+            chart1.Series[0].Points.AddXY(avgover, chart1.Series[1].Points[0].YValues[0]);
+
+            this.Text = (DateTime.Now - dt).TotalSeconds.ToString();
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            Models.Value = 10000;
+            Modules.Value = 100;
+            MaxBroken.Value = 99;
+            Functions.Value = 15;
+            textBox1.Lines=new string[]{"100", "90", "80", "75", "115", "100", "90", "80", "75", "115", "100", "90", "80", "75", "115"};
+            button1_Click(null, null);
+            this.Close();
         }
     }
 }

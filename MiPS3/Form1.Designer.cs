@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.Modules = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -59,6 +59,11 @@
             // Modules
             // 
             this.Modules.Location = new System.Drawing.Point(144, 12);
+            this.Modules.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.Modules.Minimum = new decimal(new int[] {
             2,
             0,
@@ -120,7 +125,7 @@
             // 
             // MaxBroken
             // 
-            this.MaxBroken.Location = new System.Drawing.Point(447, 12);
+            this.MaxBroken.Location = new System.Drawing.Point(440, 12);
             this.MaxBroken.Maximum = new decimal(new int[] {
             10,
             0,
@@ -132,7 +137,7 @@
             0,
             0});
             this.MaxBroken.Name = "MaxBroken";
-            this.MaxBroken.Size = new System.Drawing.Size(48, 20);
+            this.MaxBroken.Size = new System.Drawing.Size(55, 20);
             this.MaxBroken.TabIndex = 5;
             this.MaxBroken.Value = new decimal(new int[] {
             6,
@@ -152,7 +157,7 @@
             // 
             // Models
             // 
-            this.Models.Location = new System.Drawing.Point(447, 38);
+            this.Models.Location = new System.Drawing.Point(440, 38);
             this.Models.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -164,7 +169,7 @@
             0,
             0});
             this.Models.Name = "Models";
-            this.Models.Size = new System.Drawing.Size(48, 20);
+            this.Models.Size = new System.Drawing.Size(55, 20);
             this.Models.TabIndex = 7;
             this.Models.Value = new decimal(new int[] {
             5,
@@ -175,7 +180,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(317, 40);
+            this.label4.Location = new System.Drawing.Point(310, 40);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(124, 13);
             this.label4.TabIndex = 8;
@@ -192,37 +197,37 @@
             // 
             // chart1
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Alignment = System.Drawing.StringAlignment.Center;
-            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea5.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea5);
+            legend5.Alignment = System.Drawing.StringAlignment.Center;
+            legend5.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend5.Name = "Legend1";
+            this.chart1.Legends.Add(legend5);
             this.chart1.Location = new System.Drawing.Point(201, 64);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Range;
-            series1.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
-            series1.IsVisibleInLegend = false;
-            series1.Legend = "Legend1";
-            series1.Name = "Series2";
-            series1.YValuesPerPoint = 2;
-            series2.BorderWidth = 2;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            series2.Legend = "Legend1";
-            series2.Name = "Коэффициент сохранения эффективности";
-            series3.BorderWidth = 2;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Color = System.Drawing.Color.Red;
-            series3.IsVisibleInLegend = false;
-            series3.Legend = "Legend1";
-            series3.Name = "Series3";
-            this.chart1.Series.Add(series1);
-            this.chart1.Series.Add(series2);
-            this.chart1.Series.Add(series3);
+            series13.BorderWidth = 2;
+            series13.ChartArea = "ChartArea1";
+            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
+            series13.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            series13.IsVisibleInLegend = false;
+            series13.Legend = "Legend1";
+            series13.Name = "Series3";
+            series14.ChartArea = "ChartArea1";
+            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Range;
+            series14.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            series14.IsVisibleInLegend = false;
+            series14.Legend = "Legend1";
+            series14.Name = "Series2";
+            series14.YValuesPerPoint = 2;
+            series15.BorderWidth = 2;
+            series15.ChartArea = "ChartArea1";
+            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series15.Color = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            series15.Legend = "Legend1";
+            series15.Name = "Коэффициент сохранения эффективности";
+            this.chart1.Series.Add(series13);
+            this.chart1.Series.Add(series14);
+            this.chart1.Series.Add(series15);
             this.chart1.Size = new System.Drawing.Size(916, 261);
             this.chart1.TabIndex = 10;
             this.chart1.Text = "chart1";
@@ -240,7 +245,7 @@
             // Stud
             // 
             this.Stud.DecimalPlaces = 3;
-            this.Stud.Location = new System.Drawing.Point(248, 38);
+            this.Stud.Location = new System.Drawing.Point(241, 38);
             this.Stud.Minimum = new decimal(new int[] {
             1,
             0,
@@ -258,7 +263,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(227, 40);
+            this.label6.Location = new System.Drawing.Point(220, 40);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(15, 13);
             this.label6.TabIndex = 13;
@@ -296,6 +301,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form1";
             this.Text = "МиПС3";
+            this.Shown += new System.EventHandler(this.Form1_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.Modules)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Functions)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.MaxBroken)).EndInit();
