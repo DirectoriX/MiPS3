@@ -55,9 +55,9 @@ namespace MiPS3
             {
                 try
                 {
-                    Ls[i] = Convert.ToDouble(textBox1.Lines[i]);
+                    Ls[i] = Math.Abs(Convert.ToDouble(textBox1.Lines[i]));
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     Ls[i] = 1;
                 }
@@ -170,7 +170,6 @@ namespace MiPS3
                 chart1.Series[2].Points.AddXY(x, K);
             }
 
-            //chart1.Series[0].Points.AddXY(avgover, 0);
             chart1.Series[0].Points.AddXY(avgover - overpogr, chart1.Series[1].Points[0].YValues[0]);
             chart1.Series[0].Points.AddXY(avgover, chart1.Series[1].Points[0].YValues[0]);
 
